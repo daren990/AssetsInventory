@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txttaglockAccPwdArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglockaccpwdarea"
+                android:textColor="@color/red" />
+
+            <Spinner
+                android:id="@+id/spintagLockAccPwdArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/taglockaccpwdareavalue" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txttaglockKillPwdArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglockkillpwdarea"
+                android:textColor="@color/red" />
+
+            <Spinner
+                android:id="@+id/spintaglockKillPwdArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/taglockaccpwdareavalue" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txttaglockEpc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglockepc"
+                android:textColor="@color/red" />
+
+            <Spinner
+                android:id="@+id/spintaglockEpc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/taglockepcvalue" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txttaglockTid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglocktid"
+                android:textColor="@color/red" />
+
+            <Spinner
+                android:id="@+id/spintaglockTid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/taglockepcvalue" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txttaglockUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglockuser"
+                android:textColor="@color/red" />
+
+            <Spinner
+                android:id="@+id/spintaglockUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/taglockepcvalue" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txttaglockAccPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglockaccpwd"
+                android:textColor="@color/red" />
+
+            <EditText
+                android:id="@+id/edittaglockAccPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/commonpwd" >
+
+                <requestFocus />
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/btntaglockmake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taglockmake" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

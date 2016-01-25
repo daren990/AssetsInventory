@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.78"
+        android:orientation="vertical" >
+        
+        <!-- 设置盘点列表的表头 -->
+        <LinearLayout  
+	        android:layout_width="match_parent" 
+	        android:layout_height="wrap_content"  
+	        android:orientation="horizontal" >  
+	        <TextView
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/getAssetNo"
+	            android:textColor="@color/blue"
+	            android:textSize="15sp" />
+	        <TextView
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/getAssetName"
+	            android:textColor="@color/blue"
+	            android:textSize="15sp" />
+	        <TextView
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/getAssetCustodian"
+	            android:textColor="@color/blue"
+	            android:textSize="15sp" />
+	    </LinearLayout>  
+
+        <ListView
+            android:id="@+id/listinventorydata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/txtinventoryTagCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorytagcount"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txtinventoryTagCountValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorytagcountvalue"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txtinventoryTagCountDanWei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorytagcountdanwei"
+                android:textColor="@color/red" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txtinventorySpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventoryspeed"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txtinventorySpeedValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventoryspeedvalue"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txtinventorySpeedDanWei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventoryspeeddanwei"
+                android:textColor="@color/red" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txtinventoryTagTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorytagtotal"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txtinventoryTagTotalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorytagtotalvalue"
+                android:textColor="@color/red" />
+
+            <TextView
+                android:id="@+id/txtinventoryTagTotalDanWei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorytagtotaldanwei"
+                android:textColor="@color/red" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/btninventoryStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorystart" />
+
+            <Button
+                android:id="@+id/btninventoryStop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventorystop" />
+
+            <Button
+                android:id="@+id/btninventoryClear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inventoryclear" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

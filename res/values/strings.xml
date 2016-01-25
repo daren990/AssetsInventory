@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">资产盘点</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- common-start -->
+    <string name="commontxtvalue">0</string>
+    <string name="commontxtvalue1">1</string>
+    <string name="commontxtvalue2">2</string>
+    <string name="commonpwd">00000000</string>
+    <!-- common-end -->
+
+
+    <!-- main_tab-start -->
+    <string name="mainstatus">当前状态：</string>
+    <string name="mainstatusvalue">status</string>
+    <string name="mainstart">连接</string>
+    <string name="mainend">断开</string>
+    <!-- main_tab-end -->
+
+
+    <!-- readwrite_tab-start -->
+    <string name="readwritearea">选择区域：</string>
+    <string name="readwriteoffset">起始地址：</string>
+    <string name="readwritecount">选择长度：</string>
+    <string name="readwritepwd">访问密码：</string>
+    <string name="readwritereadvalue">读取</string>
+    <string name="readwritewritevalue">写入</string>
+
+    <string-array name="readwritearea">
+        <item>EPC</item>
+        <item>TID</item>
+        <item>USER</item>
+    </string-array>
+    <!-- readwrite_tab-end -->
+
+
+    <!-- frequency_tab-start -->
+    <string name="frequencyregion">区域：</string>
+    <string name="frequencyregionbtnvalue">设置区域</string>
+    <string name="frequencypindian">频点：</string>
+    <string name="frequencypindianbtnvalue">设置频点</string>
+
+    <string-array name="frequencyregionvalue">
+        <item>840-845(China)</item>
+        <item>920-925(China)</item>
+        <item>902-928(开放频段)</item>
+    </string-array>
+    <!-- frequency_tab-end -->
+
+
+    <!-- permission_tab-start -->
+    <string name="perkillpwd">销毁密码：</string>
+    <string name="peraccpwd">访问密码：</string>
+    <string name="perbtnread">读取</string>
+    <string name="perpwdtype">密码类型：</string>
+    <string name="pernewpwd">新密码</string>
+    <string name="perupdatepwd">修改</string>
+    <string name = "perupgradeprogram">恢复出厂设置</string>
+
+    <string-array name="perpwdtypevalue">
+        <item>销毁密码</item>
+        <item>访问密码</item>
+    </string-array>
+    <!-- permission_tab-end -->
+
+
+    <!-- taglock_tab-start -->
+    <string name="taglockaccpwdarea">访问密码区：</string>
+    <string name="taglockkillpwdarea">销毁密码区：</string>
+    <string name="taglockepc">EPC：</string>
+    <string name="taglocktid">TID：</string>
+    <string name="taglockuser">USER：</string>
+    <string name="taglockaccpwd">访问密码：</string>
+    <string name="taglockmake">执行</string>
+
+    <string-array name="taglockaccpwdareavalue">
+        <item>No change</item>
+        <item>Accessible</item>
+        <item>Always Accessible</item>
+        <item>Secured Accessible</item>
+        <item>Always not Accessible</item>
+    </string-array>
+    <string-array name="taglockepcvalue">
+        <item>No change</item>
+        <item>Writeable</item>
+        <item>Always Writeable</item>
+        <item>Secured Writeable</item>
+        <item>Always not Writeable</item>
+    </string-array>
+    <!-- taglock_tab-end -->
+
+
+    <!-- inventoryset_tab -->
+    <string name="inventorysetcontent">盘点内容：</string>
+    <string name="inventorysetmode">盘点模式：</string>
+    <string name="inventorysetruntime">运行时间：</string>
+    <string name="inventorysetsleeptime">休息时间：</string>
+    <string name="inventorysetmake">保存</string>
+
+    <string-array name="inventorysetcontentvalue">
+        <item>EPC</item>
+        <item>TID</item>
+    </string-array>
+    <string-array name="inventorysetmodevalue">
+        <item>高速模式</item>
+        <item>智能模式</item>
+        <item>低功耗模式</item>
+        <item>自定义</item>
+    </string-array>
+    <!-- inventoryset_tab-end -->
+
+
+    <!-- power_tab-start -->
+    <string name="powerbarvalue">显示值：</string>
+    <string name="powergetvalue">显示值：</string>
+    <string name="powercurrentvalue">当前功率：</string>
+    <string name="powerlianjie">链接：</string>
+    <string name="powermake">设置功率</string>
+    <string name="powerlianjiemake">设置链接</string>
+
+    <string-array name="powerlianjievalue">
+        <item>0:DSB_ASK/M0/40khz</item>
+        <item>1:PR_ASK/M2/250khz</item>
+        <item>2:PR_ASK/M2/300khz</item>
+        <item>3:DSB_ASK/M0/400khz</item>
+    </string-array>
+    <!-- power_tab-end -->
+
+
+    <!-- inventory_tab-start -->
+    <string name="labelNo">标签标号</string>
+    <string name="getLableTimes">读取标签次数</string>
+    <string name="getAssetNo">资产编号</string>
+    <string name="getAssetName">资产名称</string>
+    <string name="getAssetCustodian">保管员</string>
+    <string name="getAssetAddress">地点</string>
+    <string name="inventorytagcount">标签个数：</string>
+    <string name="inventorytagcountvalue">0</string>
+    <string name="inventorytagcountdanwei">个</string>
+    <string name="inventoryspeed">速率：</string>
+    <string name="inventoryspeedvalue">0</string>
+    <string name="inventoryspeeddanwei">次/秒</string>
+    <string name="inventorytagtotal">总数：</string>
+    <string name="inventorytagtotalvalue">0</string>
+    <string name="inventorytagtotaldanwei">个</string>
+    <string name="inventorystart">盘点</string>
+    <string name="inventorystop">停止</string>
+    <string name="inventoryclear">清除</string>
+    <!-- inventory_tab-end -->
+
+</resources>

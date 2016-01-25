@@ -3,13 +3,10 @@ package com.uhf.rfid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.uhf.vo.Asset;
-import com.uhf.vo.TUsers;
 import com.uhf.constants.Constants.InvMode;
-import com.uhf.constants.Constants.RFID_INVENTORY_TAG_AREA;
 import com.uhf.constants.Constants.Result;
 import com.uhf.dao.AssetDAOImpl;
 import com.uhf.rfid.R;
@@ -38,10 +35,12 @@ public class InventoryFragment extends Fragment {
 	private Button btninventoryStart;
 	private Button btninventoryStop;
 	private Button btninventoryClear;
+	private View mainView;
 	private ListView list_radio;
 	private TextView textView_tagcountvalue;
 	private TextView textView_SpeedValue;
 	private TextView text_View_tagtotal;
+	private TextView txtAssetsCountValue;
 	private boolean m_bStopOpenRadioThread;// 是否启动盘点
 	public static boolean m_bStopInventoryThread;// 是否停止盘点
 	private boolean m_bClear;
@@ -49,11 +48,12 @@ public class InventoryFragment extends Fragment {
 	private double m_lStartTime;
 	private St_Inv_Data[] stInvData;// 盘点的数据
 	private int m_TagTotalCount;// 标签总数
-	private String Data = "Data";
-	private String Count = "Count";
-	private String AssetNo = "AssetNo";
-	private String AssetName = "AssetName";
-	private String AssetCustodian = "AssetCustodian";
+	private String Data = "Data";// 标签数据
+	private String Count = "Count";// 访问标签的次数
+	private String AssetNo = "AssetNo";// 资产编号
+	private String AssetName = "AssetName";// 资产名称
+	private String AssetCustodian = "AssetCustodian";// 保管员
+	private int AssetsCountValue;// 资产盘点总数
 	private SimpleAdapter recptionSimpleAdapter;
 	private ArrayList<Map<String, String>> receptionArrayList;
 	private HashMap<String, String> EpcData;
@@ -82,6 +82,7 @@ public class InventoryFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mainView = inflater.inflate(R.layout.main, null);
 		return inflater.inflate(R.layout.inventory_tab, null);
 	}
 
@@ -103,7 +104,9 @@ public class InventoryFragment extends Fragment {
 				R.id.txtinventorySpeedValue);
 		text_View_tagtotal = (TextView) getView().findViewById(
 				R.id.txtinventoryTagTotalValue);
-
+		
+		txtAssetsCountValue = (TextView) mainView.findViewById(R.id.txtAssetsCountValue);
+		
 		m_bStopOpenRadioThread = false;
 		m_bStopInventoryThread = true;
 		receptionArrayList = new ArrayList<Map<String, String>>();
@@ -334,10 +337,6 @@ public class InventoryFragment extends Fragment {
 		m_TagTotalCount = m_TagTotalCount + 1;
 		if (found == 1) {
 			for (int i = 0; i < receptionArrayList.size(); i++) {
-//				Asset asset = assetDAOImpl.findByLabelId(data);
-//				if (asset != null) {
-//					data = asset.getAssetNo();
-//				}
 				if (data.equals(receptionArrayList.get(i).get(Data))) {
 					String t = String.valueOf(receptionArrayList.get(i).get(
 							Count));
@@ -359,6 +358,8 @@ public class InventoryFragment extends Fragment {
 				assetNo = asset.getAssetNo();
 				assetName = asset.getName();
 				assetCustodian = asset.getCustodian();
+				AssetsCountValue = AssetsCountValue + 1;
+				txtAssetsCountValue.setText(AssetsCountValue + ""); 
 			}
 			// 不包含此条数据
 			HashMap<String, String> hashMap = new HashMap<String, String>();

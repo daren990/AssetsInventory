@@ -18,6 +18,12 @@
     <string name="mainstart">连接</string>
     <string name="mainend">断开</string>
     <!-- main_tab-end -->
+    
+    
+    <!-- assetsCount-start -->
+    <string name="assetsCountName">资产盘点总数：</string>
+    <string name="assetsCountValue">0</string>
+    <!-- assetsCount-end -->
 
 
     <!-- readwrite_tab-start -->

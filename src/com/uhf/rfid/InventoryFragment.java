@@ -35,11 +35,10 @@ public class InventoryFragment extends Fragment {
 	private Button btninventoryStart;
 	private Button btninventoryStop;
 	private Button btninventoryClear;
-	private View mainView;
 	private ListView list_radio;
-	private TextView textView_tagcountvalue;
-	private TextView textView_SpeedValue;
-	private TextView text_View_tagtotal;
+//	private TextView textView_tagcountvalue;
+//	private TextView textView_SpeedValue;
+//	private TextView text_View_tagtotal;
 	private TextView txtAssetsCountValue;
 	private boolean m_bStopOpenRadioThread;// 是否启动盘点
 	public static boolean m_bStopInventoryThread;// 是否停止盘点
@@ -53,7 +52,7 @@ public class InventoryFragment extends Fragment {
 	private String AssetNo = "AssetNo";// 资产编号
 	private String AssetName = "AssetName";// 资产名称
 	private String AssetCustodian = "AssetCustodian";// 保管员
-	private int AssetsCountValue;// 资产盘点总数
+	private int assetsCountValue;// 资产盘点总数
 	private SimpleAdapter recptionSimpleAdapter;
 	private ArrayList<Map<String, String>> receptionArrayList;
 	private HashMap<String, String> EpcData;
@@ -61,6 +60,11 @@ public class InventoryFragment extends Fragment {
 	private double invDataTime;
 	private double temptime;
 
+	/**
+	 * 初始化开始盘点的参数
+	 * @author libb
+	 *
+	 */
 	public static class InventoryStartPara {
 		public static int uiInventoryMode;
 		public static int iRunningTime;
@@ -72,24 +76,36 @@ public class InventoryFragment extends Fragment {
 			iRestTime = 0;
 		}
 	}
-
+	
+	// 定义获得系统数据的线程
 	private MyThread_InventoryThread mythread_Inventory = null;
+	// 定义获得标签速率等数据的线程
 	private MyThread_MyCounterThread mythread_MyCounter = null;
+	// 定义获得资产总数的线程
+	private MyThread_AssetsCountThread mythread_AssetsCount = null;
 	private MyThread_OpenRadioThread mythread_OpenRadio = null;
+	// 处理系统数据的类
 	private Handler_Inventory handler_Inventory;
+	// 处理标签速率等信息的类
 	private Handler_MyCounter handler_MyCounter;
-
+	// 处理资产总数信息的类
+	private Handler_AssetsCount handler_AssetsCount;
+	
+	/**
+	 * 初始化布局
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mainView = inflater.inflate(R.layout.main, null);
 		return inflater.inflate(R.layout.inventory_tab, null);
 	}
 
+	/**
+	 * 活动的创建
+	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 		btninventoryStart = (Button) getView().findViewById(
 				R.id.btninventoryStart);
 		btninventoryStop = (Button) getView().findViewById(
@@ -98,14 +114,14 @@ public class InventoryFragment extends Fragment {
 				R.id.btninventoryClear);
 
 		list_radio = (ListView) getView().findViewById(R.id.listinventorydata);
-		textView_tagcountvalue = (TextView) getView().findViewById(
-				R.id.txtinventoryTagCountValue);
-		textView_SpeedValue = (TextView) getView().findViewById(
-				R.id.txtinventorySpeedValue);
-		text_View_tagtotal = (TextView) getView().findViewById(
-				R.id.txtinventoryTagTotalValue);
+//		textView_tagcountvalue = (TextView) getView().findViewById(
+//				R.id.txtinventoryTagCountValue);
+//		textView_SpeedValue = (TextView) getView().findViewById(
+//				R.id.txtinventorySpeedValue);
+//		text_View_tagtotal = (TextView) getView().findViewById(
+//				R.id.txtinventoryTagTotalValue);
 		
-		txtAssetsCountValue = (TextView) mainView.findViewById(R.id.txtAssetsCountValue);
+		txtAssetsCountValue = (TextView) getView().findViewById(R.id.txtAssetsCountValue);
 		
 		m_bStopOpenRadioThread = false;
 		m_bStopInventoryThread = true;
@@ -117,6 +133,9 @@ public class InventoryFragment extends Fragment {
 		setListener();
 	}
 
+	/**
+	 * 设置监听器
+	 */
 	private void setListener() {
 		// TODO Auto-generated method stub
 		btninventoryStart.setOnClickListener(new OnClickListener() {
@@ -152,6 +171,7 @@ public class InventoryFragment extends Fragment {
 				}
 				handler_Inventory = new Handler_Inventory();
 				handler_MyCounter = new Handler_MyCounter();
+				handler_AssetsCount = new Handler_AssetsCount();
 
 				mythread_OpenRadio = new MyThread_OpenRadioThread();
 				mythread_OpenRadio.start();
@@ -161,6 +181,9 @@ public class InventoryFragment extends Fragment {
 
 				mythread_MyCounter = new MyThread_MyCounterThread();
 				mythread_MyCounter.start();
+				
+				mythread_AssetsCount = new MyThread_AssetsCountThread();
+				mythread_AssetsCount.start();
 
 				MainActivity.DisplayResult("开始盘点");
 			}
@@ -181,7 +204,7 @@ public class InventoryFragment extends Fragment {
 				}
 				handler_Inventory.removeMessages(111);
 				handler_MyCounter.removeMessages(222);
-
+				handler_AssetsCount.removeMessages(333);
 			}
 		});
 		btninventoryClear.setOnClickListener(new OnClickListener() {
@@ -228,6 +251,11 @@ public class InventoryFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * 获得系统的标签数据
+	 * @author libb
+	 *
+	 */
 	class MyThread_InventoryThread extends Thread {
 		public void run() {
 			try {
@@ -331,7 +359,20 @@ public class InventoryFragment extends Fragment {
 			m_InventorySpendTime += m_lEndTime - m_lStartTime;
 		}
 	}
+	
+	class MyThread_AssetsCountThread extends Thread {
+		public void run() {
+			int str_AssetsCount = 0;
+			str_AssetsCount = assetsCountValue;
+			Common.send(handler_AssetsCount, 333, str_AssetsCount);
+		}
+	}
 
+	/**
+	 * 更新显示列表数据
+	 * @param found 是否已经存在此标签的标识
+	 * @param data 标签数据
+	 */
 	private synchronized void UpdatelistDataInsert(int found, String data) {
 		AssetDAOImpl assetDAOImpl = new AssetDAOImpl(getActivity().getBaseContext());
 		m_TagTotalCount = m_TagTotalCount + 1;
@@ -354,33 +395,53 @@ public class InventoryFragment extends Fragment {
 			String assetName = null;
 			String assetCustodian = null;
 			Asset asset = (Asset) assetDAOImpl.findByLabelId(data);
+			/**
+			 * 如果标签ID没有找到对应的资产信息，则此时资产信息不添加到资产信息显示列表中
+			 */
 			if (asset != null) {
 				assetNo = asset.getAssetNo();
 				assetName = asset.getName();
 				assetCustodian = asset.getCustodian();
-				AssetsCountValue = AssetsCountValue + 1;
-				txtAssetsCountValue.setText(AssetsCountValue + ""); 
+				assetsCountValue = assetsCountValue + 1;
+				// 不包含此条数据
+				HashMap<String, String> hashMap = new HashMap<String, String>();
+				hashMap.put(Data, data);
+				hashMap.put(Count, "1");
+				hashMap.put(AssetNo, assetNo);
+				hashMap.put(AssetName, assetName);
+				hashMap.put(AssetCustodian, assetCustodian);
+				receptionArrayList.add(hashMap);
+				refesh();
 			}
-			// 不包含此条数据
-			HashMap<String, String> hashMap = new HashMap<String, String>();
-			hashMap.put(Data, data);
-			hashMap.put(Count, "1");
-			hashMap.put(AssetNo, assetNo);
-			hashMap.put(AssetName, assetName);
-			hashMap.put(AssetCustodian, assetCustodian);
-			receptionArrayList.add(hashMap);
-			refesh();
 		}
 
 	}
 
+	/**
+	 * 更新标签查找的速率、数量、总的扫描次数
+	 * @param str_TagCount
+	 * @param str_TotalCount
+	 * @param str_Rate
+	 */
 	public synchronized void UpdateRateCount(String str_TagCount,
 			String str_TotalCount, String str_Rate) {
-		textView_SpeedValue.setText(str_Rate);
-		textView_tagcountvalue.setText(str_TagCount);
-		text_View_tagtotal.setText(str_TotalCount);
+//		textView_SpeedValue.setText(str_Rate);
+//		textView_tagcountvalue.setText(str_TagCount);
+//		text_View_tagtotal.setText(str_TotalCount);
+		txtAssetsCountValue.setText(str_TagCount);
+	}
+	
+	/**
+	 * 更新资产的总数
+	 * @param assetsCount
+	 */
+	public synchronized void UpdateAssetsCount(String assetsCount) {
+		txtAssetsCountValue.setText(assetsCount);
 	}
 
+	/**
+	 * 清除显示的数据信息
+	 */
 	public void ClearCtlItemInfo() {
 		if (!MainActivity.m_InitStatus) {
 			return;
@@ -389,12 +450,17 @@ public class InventoryFragment extends Fragment {
 		receptionArrayList.clear();
 		EpcData.clear();
 		m_TagTotalCount = 0;
-		textView_SpeedValue.setText("0");
-		textView_tagcountvalue.setText("0");
-		text_View_tagtotal.setText("0");
+		assetsCountValue = 0;
+//		textView_SpeedValue.setText("0");
+//		textView_tagcountvalue.setText("0");
+//		text_View_tagtotal.setText("0");
+		txtAssetsCountValue.setText("0");
 		refesh();
 	}
 
+	/**
+	 * 初始化视图
+	 */
 	private void initView() {
 		recptionSimpleAdapter = new SimpleAdapter(getActivity(),
 				receptionArrayList, R.layout.inventory_list, new String[] {
@@ -407,11 +473,19 @@ public class InventoryFragment extends Fragment {
 		sAdapter.notifyDataSetChanged();
 	}
 
+	/**
+	 * 刷新列表数据
+	 */
 	private synchronized void refesh() {
 		SimpleAdapter sAdapter = (SimpleAdapter) (list_radio).getAdapter();
 		sAdapter.notifyDataSetChanged();
 	}
 
+	/**
+	 * 传递列表的数据信息
+	 * @author libb
+	 *
+	 */
 	class Handler_Inventory extends Handler {
 		public Handler_Inventory() {
 		}
@@ -429,6 +503,11 @@ public class InventoryFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * 传递扫描的数量信息
+	 * @author libb
+	 *
+	 */
 	class Handler_MyCounter extends Handler {
 		public Handler_MyCounter() {
 		}
@@ -442,6 +521,28 @@ public class InventoryFragment extends Fragment {
 			if (msg.what == 222) {
 				UpdateRateCount(String.valueOf(msg.arg1),
 						String.valueOf(msg.arg2), String.valueOf(msg.obj));
+			}
+			super.handleMessage(msg);
+		}
+	}
+	
+	/**
+	 * 传递资产的总数信息
+	 * @author libb
+	 *
+	 */
+	class Handler_AssetsCount extends Handler {
+		public Handler_AssetsCount() {
+		}
+
+		public Handler_AssetsCount(Looper looper) {
+			super(looper);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == 333) {
+				UpdateAssetsCount(String.valueOf(msg.arg1));
 			}
 			super.handleMessage(msg);
 		}

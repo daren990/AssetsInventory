@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    <!-- 表格布局 -->
 	<TableLayout 
 	    android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
             android:id="@+id/tableRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+			<!-- 当前状态 -->
             <TextView
                 android:id="@+id/txtAssetsCountName"
                 android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
                 android:text="@string/assetsCountName"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
-
+			<!-- 显示当前状态的值 -->
             <TextView
                 android:id="@+id/txtAssetsCountValue"
                 android:layout_width="wrap_content"
@@ -30,6 +31,7 @@
         </TableRow>
 	</TableLayout>
     
+	<!-- 线性布局 -->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -64,13 +66,15 @@
 	            android:textSize="15sp" />
 	    </LinearLayout>  
 
+        <!-- 设置盘点数据的显示列表区域 -->
         <ListView
             android:id="@+id/listinventorydata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
         </ListView>
     </LinearLayout>
-
+    
+	<!-- 表格布局 -->
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -158,24 +162,26 @@
                 android:textColor="@color/red" />
         </TableRow>
         -->
-
+		
         <TableRow
             android:id="@+id/tableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+			<!-- 盘点按钮 -->
             <Button
                 android:id="@+id/btninventoryStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/inventorystart" />
 
+            <!-- 停止按钮 -->
             <Button
                 android:id="@+id/btninventoryStop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/inventorystop" />
 
+            <!-- 清除按钮 -->
             <Button
                 android:id="@+id/btninventoryClear"
                 android:layout_width="wrap_content"
@@ -183,5 +189,4 @@
                 android:text="@string/inventoryclear" />
         </TableRow>
     </TableLayout>
-
 </LinearLayout>

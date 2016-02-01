@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.uhf.util.DBHelper;
-
+import com.uhf.util.DatabaseDump;
 import com.uhf.constants.Constants.Result;
 import com.uhf.linkage.Linkage;
 import com.uhf.rfid.R;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,6 +34,7 @@ public class MainActivity extends FragmentActivity{
 	public static TextView textView;
 	private Button btnmainstart;
 	private Button btnmainend;
+	private Button bntExport;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends FragmentActivity{
 		textView = (TextView)findViewById(R.id.txtmainstatusvalue);
 		btnmainstart = (Button)findViewById(R.id.btnmainstart);
 		btnmainend = (Button)findViewById(R.id.btnmainend);
+		bntExport = (Button)findViewById(R.id.bntExport);
 		rgs = (RadioGroup) findViewById(R.id.tabs_rg);   
 		initView();
 		setListener();
@@ -93,13 +96,29 @@ public class MainActivity extends FragmentActivity{
 					textView.setText("请先停止盘点");
 					return;
 				}
-			/*	if(m_InitStatus){
+				/*	if(m_InitStatus){
 					DisConnect();
 					textView.setText("断开成功");
 				}
-*/
+			 	*/
 				DisConnect();
 				textView.setText("断开成功");
+			}
+		});
+		
+		bntExport.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				if(!InventoryFragment.m_bStopInventoryThread){
+					textView.setText("请先停止盘点");
+					return;
+				}
+				DBHelper dbOpenHandler = new DBHelper(getBaseContext());
+				SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
+				DatabaseDump testDatabaseDump = new DatabaseDump(db, null);
+				testDatabaseDump.exportData();
+				DisConnect();
+				textView.setText("导出成功");
 			}
 		});
 	}

@@ -10,6 +10,7 @@ import com.uhf.constants.Constants.InvMode;
 import com.uhf.constants.Constants.Result;
 import com.uhf.dao.AssetDAOImpl;
 import com.uhf.rfid.R;
+import com.uhf.servlet.RecordServlet;
 import com.uhf.structures.Rfid_Value;
 import com.uhf.structures.St_Inv_Data;
 import com.uhf.structures.Single_Inventory_Time_Config;
@@ -32,17 +33,17 @@ import android.widget.TextView;
 public class InventoryFragment extends Fragment {
 	private static final String TAG = "这个是测试类";// 准备好TAG标识用于LOG输出，方便我们用LogCat进行调试
 
-	private Button btninventoryStart;
-	private Button btninventoryStop;
-	private Button btninventoryClear;
-	private ListView list_radio;
-//	private TextView textView_tagcountvalue;
-//	private TextView textView_SpeedValue;
-//	private TextView text_View_tagtotal;
-	private TextView txtAssetsCountValue;
+	private Button btninventoryStart;// 定义开始按钮
+	private Button btninventoryStop;// 定义停止按钮
+	private Button btninventoryClear;// 定义清除按钮
+	private ListView list_radio;// 定义一个list显示列表
+//	private TextView textView_tagcountvalue;// 标签总数
+//	private TextView textView_SpeedValue;// 访问标签的速率
+//	private TextView text_View_tagtotal;// 访问所有标签的总次数
+	private TextView txtAssetsCountValue;// 显示资产的总数
 	private boolean m_bStopOpenRadioThread;// 是否启动盘点
 	public static boolean m_bStopInventoryThread;// 是否停止盘点
-	private boolean m_bClear;
+	private boolean m_bClear;// 是否清除盘点数据
 	private double m_InventorySpendTime;
 	private double m_lStartTime;
 	private St_Inv_Data[] stInvData;// 盘点的数据
@@ -53,9 +54,9 @@ public class InventoryFragment extends Fragment {
 	private String AssetName = "AssetName";// 资产名称
 	private String AssetCustodian = "AssetCustodian";// 保管员
 	private int assetsCountValue;// 资产盘点总数
-	private SimpleAdapter recptionSimpleAdapter;
-	private ArrayList<Map<String, String>> receptionArrayList;
-	private HashMap<String, String> EpcData;
+	private SimpleAdapter recptionSimpleAdapter;// 定义显示列表的适配器
+	private ArrayList<Map<String, String>> receptionArrayList;// 定义获得显示的列表数据
+	private HashMap<String, String> EpcData;// 存放所有访问到的标签
 	private Single_Inventory_Time_Config InvConfig;
 	private double invDataTime;
 	private double temptime;
@@ -112,7 +113,7 @@ public class InventoryFragment extends Fragment {
 				R.id.btninventoryStop);
 		btninventoryClear = (Button) getView().findViewById(
 				R.id.btninventoryClear);
-
+		
 		list_radio = (ListView) getView().findViewById(R.id.listinventorydata);
 //		textView_tagcountvalue = (TextView) getView().findViewById(
 //				R.id.txtinventoryTagCountValue);
@@ -213,7 +214,6 @@ public class InventoryFragment extends Fragment {
 				ClearCtlItemInfo();
 			}
 		});
-
 	}
 
 	class MyThread_OpenRadioThread extends Thread {
@@ -394,6 +394,7 @@ public class InventoryFragment extends Fragment {
 			String assetNo = null;
 			String assetName = null;
 			String assetCustodian = null;
+			// 获得对应标签的资产
 			Asset asset = (Asset) assetDAOImpl.findByLabelId(data);
 			/**
 			 * 如果标签ID没有找到对应的资产信息，则此时资产信息不添加到资产信息显示列表中
@@ -411,6 +412,11 @@ public class InventoryFragment extends Fragment {
 				hashMap.put(AssetName, assetName);
 				hashMap.put(AssetCustodian, assetCustodian);
 				receptionArrayList.add(hashMap);
+				/**
+				 * 插入已盘点到的资产到盘点记录表中
+				 */
+				RecordServlet recordServlet = new RecordServlet();
+				recordServlet.IsRecord(asset, getActivity().getBaseContext());
 				refesh();
 			}
 		}

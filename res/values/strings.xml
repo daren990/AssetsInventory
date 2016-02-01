@@ -17,6 +17,7 @@
     <string name="mainstatusvalue">status</string>
     <string name="mainstart">连接</string>
     <string name="mainend">断开</string>
+    <string name="export">导出</string>
     <!-- main_tab-end -->
     
     

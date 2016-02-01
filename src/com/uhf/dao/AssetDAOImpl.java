@@ -20,7 +20,7 @@ public class AssetDAOImpl {
 
 	public void save(Asset asset) {// 插入记录
 		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();// 取得数据库操作
-		db.execSQL("insert into asset (name, assetType, assetNo, address, custodian, status, labelId) values(?,?)", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getLabelId()});
+		db.execSQL("insert into asset (name, assetType, assetNo, address, custodian, status, labelId) values(?,?,?,?,?,?,?)", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getLabelId()});
 		db.close();// 记得关闭数据库操作
 	}
 

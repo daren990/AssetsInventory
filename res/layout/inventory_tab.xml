@@ -12,22 +12,47 @@
             android:id="@+id/tableRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-			<!-- 当前状态 -->
+			<!-- 资产总数当前状态 -->
             <TextView
                 android:id="@+id/txtAssetsCountName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/assetsCountName"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
-			<!-- 显示当前状态的值 -->
+                android:textSize="15sp" />
+			<!-- 资产总数显示当前状态的值 -->
             <TextView
                 android:id="@+id/txtAssetsCountValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/assetsCountValue"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textSize="15sp" />
+        </TableRow>
+        <TableRow>
+            <!-- 地点显示当前状态的值 -->
+			<Spinner  
+		        android:id="@+id/AddressSpinner"  
+		        android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/addressSpinner"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+			<!-- 地点当前状态 -->
+            <TextView
+                android:id="@+id/txtAddressName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addressName"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/txtAddressValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addressValue"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
         </TableRow>
 	</TableLayout>
     
@@ -62,6 +87,13 @@
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
 	            android:text="@string/getAssetCustodian"
+	            android:textColor="@color/blue"
+	            android:textSize="15sp" />
+	        <TextView
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/getAssetAddress"
 	            android:textColor="@color/blue"
 	            android:textSize="15sp" />
 	    </LinearLayout>  

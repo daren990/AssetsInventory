@@ -82,6 +82,32 @@ public class AssetDAOImpl {
 	}
 	
 	/**
+	 * 通过标签的ID和资产所在地点获得对应的资产记录
+	 * @param labelId 
+	 * @param address
+	 * @return
+	 */
+	public Asset findByLabelId(String labelId, String address) {// 根据ID查找纪录
+		Asset asset = null;
+		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
+		// 用游标Cursor接收从数据库检索到的数据
+		Cursor cursor = db.rawQuery("select * from asset where labelId=? and address=?", new String[] {labelId, address});
+		if (cursor.moveToFirst()) {// 依次取出数据
+			asset = new Asset();
+			asset.setId(cursor.getInt(cursor.getColumnIndex("id")));
+			asset.setName(cursor.getString(cursor.getColumnIndex("name")));
+			asset.setAssetType(cursor.getString(cursor.getColumnIndex("assetType")));
+			asset.setAssetNo(cursor.getString(cursor.getColumnIndex("assetNo")));
+			asset.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
+			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+		}
+		db.close();
+		return asset;
+	}
+	
+	/**
 	 * 通过资产名称获得对应的资产记录
 	 * @param name
 	 * @return
@@ -162,5 +188,20 @@ public class AssetDAOImpl {
 		cursor.moveToFirst();
 		db.close();
 		return cursor.getLong(0);
+	}
+	
+	/**
+	 * 获取所有的地点
+	 * @return
+	 */
+	public List getAllAddress() {
+		List list = new ArrayList();
+		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select distinct(address) as addr from asset", null);
+		while (cursor.moveToNext()) {
+			String addr = cursor.getString(cursor.getColumnIndex("addr"));
+			list.add(addr);
+		}
+		return list;
 	}
 }

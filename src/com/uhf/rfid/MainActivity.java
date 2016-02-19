@@ -6,10 +6,12 @@ import java.util.List;
 import com.uhf.util.DBHelper;
 import com.uhf.util.DatabaseDump;
 import com.uhf.constants.Constants.Result;
+import com.uhf.dao.AssetDAOImpl;
 import com.uhf.linkage.Linkage;
 import com.uhf.rfid.R;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,8 +21,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -35,6 +41,12 @@ public class MainActivity extends FragmentActivity{
 	private Button btnmainstart;
 	private Button btnmainend;
 	private Button bntExport;
+//	/** Called when the activity is first created. */   
+//    private  List<String> list = new ArrayList<String>();  
+//    private  TextView myTextView;  
+//    private  Spinner mySpinner;  
+//    private  ArrayAdapter<String> adapter;  
+//    private  Animation myAnimation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +60,7 @@ public class MainActivity extends FragmentActivity{
 		initView();
 		setListener();
 		initData();
+//		initSpinner(this.getBaseContext());
 	}
 	private void initView(){	
 		fragments.add(new InventoryFragment());
@@ -211,4 +224,33 @@ public class MainActivity extends FragmentActivity{
 			e.printStackTrace();
 		}
 	}
+	
+//	public void initSpinner(Context context) {
+//		//第一步：添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项  
+//		AssetDAOImpl assetDAOImpl = new AssetDAOImpl(context);
+//        list = assetDAOImpl.getAllAddress();
+//        myTextView = (TextView)findViewById(R.id.txtAddressValue);  
+//        mySpinner = (Spinner)findViewById(R.id.AddressSpinner);
+//        //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。   
+//        adapter = new  ArrayAdapter<String>(this ,android.R.layout.simple_spinner_item, list);
+//        //第三步：为适配器设置下拉列表下拉时的菜单样式。   
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        //第四步：将适配器添加到下拉列表上   
+//        mySpinner.setAdapter(adapter); 
+//        //第五步：为下拉列表设置各种事件的响应，这个事响应菜单被选中   
+//        mySpinner.setOnItemSelectedListener(new  Spinner.OnItemSelectedListener(){  
+//            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {  
+//                // TODO Auto-generated method stub   
+//                /* 将所选mySpinner 的值带入myTextView 中*/   
+//                myTextView.setText(adapter.getItem(arg2));  
+//                /* 将mySpinner 显示*/   
+//                arg0.setVisibility(View.VISIBLE);  
+//            }  
+//            public void onNothingSelected(AdapterView<?> arg0) {  
+//                // TODO Auto-generated method stub   
+//                myTextView.setText("NONE" );  
+//                arg0.setVisibility(View.VISIBLE);  
+//            }  
+//        });
+//	}
 }    

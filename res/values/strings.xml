@@ -25,6 +25,12 @@
     <string name="assetsCountName">资产盘点总数：</string>
     <string name="assetsCountValue">0</string>
     <!-- assetsCount-end -->
+    
+    <!-- assetsCount-start -->
+    <string name="addressName">选择地点：</string>
+    <string name="addressValue">全部地点</string>
+    <string name="addressSpinner">全部地点</string>
+    <!-- assetsCount-end -->
 
 
     <!-- readwrite_tab-start -->

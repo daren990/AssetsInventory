@@ -32,6 +32,54 @@
             android:text=""
             android:textColor="@color/red"
             android:textSize="15sp" />
+        <TextView
+            android:id="@+id/idActivityMain_RecodesElement_AssetAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </LinearLayout>
+<!--
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent">
+	<TextView 
+ 	    android:id="@+id/idActivityMain_RecodesElement_AssetNoN" 
+ 	    android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:textSize="15sp"/>
+	<TextView 
+ 	    android:id="@+id/idActivityMain_RecodesElement_AssetNo" 
+ 	    android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:layout_toRightOf="@+id/idActivityMain_RecodesElement_AssetNoN"/>
+	<TextView 
+ 	    android:id="@+id/idActivityMain_RecodesElement_AssetNameN" 
+ 	    android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:textSize="15sp"
+		android:layout_below="@+id/idActivityMain_RecodesElement_AssetNoN"/>
+	<TextView 
+ 	    android:id="@+id/idActivityMain_RecodesElement_AssetName" 
+ 	    android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:layout_toRightOf="@+id/idActivityMain_RecodesElement_AssetNameN"/>
+	<TextView 
+ 	    android:id="@+id/idActivityMain_RecodesElement_AssetCustodianN" 
+ 	    android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:textSize="15sp"
+		android:layout_below="@+id/idActivityMain_RecodesElement_AssetNameN"/>
+	<TextView 
+ 	    android:id="@+id/idActivityMain_RecodesElement_AssetCustodian" 
+ 	    android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:layout_toRightOf="@+id/idActivityMain_RecodesElement_AssetCustodianN"/>
+</RelativeLayout>
+-->
+ 
+

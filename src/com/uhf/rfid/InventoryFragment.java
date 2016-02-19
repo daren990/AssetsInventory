@@ -3,6 +3,7 @@ package com.uhf.rfid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.uhf.vo.Asset;
@@ -15,6 +16,7 @@ import com.uhf.structures.Rfid_Value;
 import com.uhf.structures.St_Inv_Data;
 import com.uhf.structures.Single_Inventory_Time_Config;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,14 +26,26 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class InventoryFragment extends Fragment {
 	private static final String TAG = "这个是测试类";// 准备好TAG标识用于LOG输出，方便我们用LogCat进行调试
+	/** Called when the activity is first created. */   
+    private  List<String> list = new ArrayList<String>();  
+    private  TextView myTextView;  
+    private  Spinner mySpinner;  
+    private  ArrayAdapter<String> adapter;  
+	
+	private View mainView;
+	private TextView txtAddress;
 
 	private Button btninventoryStart;// 定义开始按钮
 	private Button btninventoryStop;// 定义停止按钮
@@ -53,6 +67,7 @@ public class InventoryFragment extends Fragment {
 	private String AssetNo = "AssetNo";// 资产编号
 	private String AssetName = "AssetName";// 资产名称
 	private String AssetCustodian = "AssetCustodian";// 保管员
+	private String AssetAddress = "AssetAddress";// 资产地点
 	private int assetsCountValue;// 资产盘点总数
 	private SimpleAdapter recptionSimpleAdapter;// 定义显示列表的适配器
 	private ArrayList<Map<String, String>> receptionArrayList;// 定义获得显示的列表数据
@@ -98,6 +113,8 @@ public class InventoryFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mainView = inflater.inflate(R.layout.main, null);
+		
 		return inflater.inflate(R.layout.inventory_tab, null);
 	}
 
@@ -107,6 +124,9 @@ public class InventoryFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		// 获得地址选择框
+		txtAddress = (TextView) getView().findViewById(R.id.txtAddressValue);
+		//txtAddress.setVisibility(View.GONE);
 		btninventoryStart = (Button) getView().findViewById(
 				R.id.btninventoryStart);
 		btninventoryStop = (Button) getView().findViewById(
@@ -131,6 +151,7 @@ public class InventoryFragment extends Fragment {
 		InvConfig = new Single_Inventory_Time_Config();
 		stInvData = new St_Inv_Data[512];
 		initView();
+		initSpinner(this.getActivity());
 		setListener();
 	}
 
@@ -391,11 +412,13 @@ public class InventoryFragment extends Fragment {
 				}
 			}
 		} else {
+			String address = (String) txtAddress.getText();
 			String assetNo = null;
 			String assetName = null;
 			String assetCustodian = null;
-			// 获得对应标签的资产
-			Asset asset = (Asset) assetDAOImpl.findByLabelId(data);
+			String assetAddress = null;
+			// 获得对应标签和所在地点的资产
+			Asset asset = (Asset) assetDAOImpl.findByLabelId(data, address);
 			/**
 			 * 如果标签ID没有找到对应的资产信息，则此时资产信息不添加到资产信息显示列表中
 			 */
@@ -403,6 +426,7 @@ public class InventoryFragment extends Fragment {
 				assetNo = asset.getAssetNo();
 				assetName = asset.getName();
 				assetCustodian = asset.getCustodian();
+				assetAddress = asset.getAddress();
 				assetsCountValue = assetsCountValue + 1;
 				// 不包含此条数据
 				HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -411,6 +435,7 @@ public class InventoryFragment extends Fragment {
 				hashMap.put(AssetNo, assetNo);
 				hashMap.put(AssetName, assetName);
 				hashMap.put(AssetCustodian, assetCustodian);
+				hashMap.put(AssetAddress, assetAddress);
 				receptionArrayList.add(hashMap);
 				/**
 				 * 插入已盘点到的资产到盘点记录表中
@@ -470,10 +495,11 @@ public class InventoryFragment extends Fragment {
 	private void initView() {
 		recptionSimpleAdapter = new SimpleAdapter(getActivity(),
 				receptionArrayList, R.layout.inventory_list, new String[] {
-						AssetNo, AssetName, AssetCustodian }, new int[] {
+						AssetNo, AssetName, AssetCustodian, AssetAddress }, new int[] {
 						R.id.idActivityMain_RecodesElement_AssetNo,
-						R.id.idActivityMain_RecodesElement_AssetName, 
-						R.id.idActivityMain_RecodesElement_AssetCustodian });
+						R.id.idActivityMain_RecodesElement_AssetName,
+						R.id.idActivityMain_RecodesElement_AssetCustodian,
+						R.id.idActivityMain_RecodesElement_AssetAddress });
 		list_radio.setAdapter(recptionSimpleAdapter);
 		SimpleAdapter sAdapter = (SimpleAdapter) (list_radio).getAdapter();
 		sAdapter.notifyDataSetChanged();
@@ -552,6 +578,35 @@ public class InventoryFragment extends Fragment {
 			}
 			super.handleMessage(msg);
 		}
+	}
+	
+	public void initSpinner(Context context) {
+		//第一步：添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项  
+		AssetDAOImpl assetDAOImpl = new AssetDAOImpl(context);
+        list = assetDAOImpl.getAllAddress();
+        myTextView = (TextView) getView().findViewById(R.id.txtAddressValue);  
+        mySpinner = (Spinner) getView().findViewById(R.id.AddressSpinner);
+        //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。   
+        adapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item, list);
+        //第三步：为适配器设置下拉列表下拉时的菜单样式。   
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //第四步：将适配器添加到下拉列表上   
+        mySpinner.setAdapter(adapter); 
+        //第五步：为下拉列表设置各种事件的响应，这个事响应菜单被选中   
+        mySpinner.setOnItemSelectedListener(new  Spinner.OnItemSelectedListener(){  
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {  
+                // TODO Auto-generated method stub   
+                /* 将所选mySpinner 的值带入myTextView 中*/   
+                myTextView.setText(adapter.getItem(arg2));  
+                /* 将mySpinner 显示*/   
+                arg0.setVisibility(View.VISIBLE);  
+            }  
+            public void onNothingSelected(AdapterView<?> arg0) {  
+                // TODO Auto-generated method stub   
+                myTextView.setText("NONE" );  
+                arg0.setVisibility(View.VISIBLE);  
+            }  
+        });
 	}
 
 	@Override

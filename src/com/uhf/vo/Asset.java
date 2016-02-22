@@ -14,6 +14,10 @@ public class Asset {
 	private String custodian;// 保管员
 	private String status;// 资产状态
 	private String labelId;// 标签ID
+	private String cTime;// 盘点的操作时间
+	private int pStatus;// 盘点的状态，0：未盘点、1：已盘点
+	private long pcFlag;// 某次盘点的标记
+	private String deptId;// 部门id
 	
 	public int getId() {
 		return id;
@@ -62,5 +66,29 @@ public class Asset {
 	}
 	public void setLabelId(String labelId) {
 		this.labelId = labelId;
+	}
+	public String getcTime() {
+		return cTime;
+	}
+	public void setcTime(String cTime) {
+		this.cTime = cTime;
+	}
+	public int getpStatus() {
+		return pStatus;
+	}
+	public void setpStatus(int pStatus) {
+		this.pStatus = pStatus;
+	}
+	public long getPcFlag() {
+		return pcFlag;
+	}
+	public void setPcFlag(long pcFlag) {
+		this.pcFlag = pcFlag;
+	}
+	public String getDeptId() {
+		return deptId;
+	}
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
 	}
 }

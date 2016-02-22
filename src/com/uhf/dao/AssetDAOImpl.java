@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.uhf.util.DBHelper;
 import com.uhf.vo.Asset;
+import com.uhf.vo.Department;
 import com.uhf.vo.TUsers;
 
 import android.content.Context;
@@ -20,7 +21,7 @@ public class AssetDAOImpl {
 
 	public void save(Asset asset) {// 插入记录
 		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();// 取得数据库操作
-		db.execSQL("insert into asset (name, assetType, assetNo, address, custodian, status, labelId) values(?,?,?,?,?,?,?)", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getLabelId()});
+		db.execSQL("insert into asset (name, assetType, assetNo, address, custodian, status, labelId, cTime, pStatus, pcFlag, deptId) values(?,?,?,?,?,?,?,?,?,?,?)", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getPcFlag(),asset.getDeptId(), asset.getLabelId()});
 		db.close();// 记得关闭数据库操作
 	}
 
@@ -29,10 +30,14 @@ public class AssetDAOImpl {
 		db.execSQL("delete from asset where id=?", new Object[] {id.toString()});
 		db.close();
 	}
-
+	
+	/**
+	 * 根据id修改盘点时间和盘点状态
+	 * @param asset
+	 */
 	public void update(Asset asset) {// 修改纪录
 		SQLiteDatabase db = dbOpenHandler.getWritableDatabase();
-		db.execSQL("update asset set name=?,assetType=?,assetNo=?,address=?,custodian=?,status=?,labelId=? where" + " id=?", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getLabelId(), asset.getId()});
+		db.execSQL("update asset set cTime=?,pStatus=?,pcFlag=? where" + " id=?", new Object[] {asset.getcTime(), asset.getpStatus(), asset.getPcFlag(), asset.getId()});
 		db.close();
 	}
 
@@ -51,6 +56,10 @@ public class AssetDAOImpl {
 			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
 			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+			asset.setcTime(cursor.getString(cursor.getColumnIndex("cTime")));
+			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
+			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
+			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
 		}
 		db.close();
 		return asset;
@@ -76,22 +85,26 @@ public class AssetDAOImpl {
 			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
 			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+			asset.setcTime(cursor.getString(cursor.getColumnIndex("cTime")));
+			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
+			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
+			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
 		}
 		db.close();
 		return asset;
 	}
 	
 	/**
-	 * 通过标签的ID和资产所在地点获得对应的资产记录
+	 * 通过标签的ID和资产所在部门id获得对应的资产记录
 	 * @param labelId 
-	 * @param address
-	 * @return
+	 * @param deptId
+	 * @return asset对象
 	 */
-	public Asset findByLabelId(String labelId, String address) {// 根据ID查找纪录
+	public Asset findByLabelIdAndDeptId(String labelId, String deptId) {// 根据ID查找纪录
 		Asset asset = null;
 		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
 		// 用游标Cursor接收从数据库检索到的数据
-		Cursor cursor = db.rawQuery("select * from asset where labelId=? and address=?", new String[] {labelId, address});
+		Cursor cursor = db.rawQuery("select * from asset where labelId=? and deptId=?", new String[] {labelId, deptId});
 		if (cursor.moveToFirst()) {// 依次取出数据
 			asset = new Asset();
 			asset.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -102,6 +115,10 @@ public class AssetDAOImpl {
 			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
 			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+			asset.setcTime(cursor.getString(cursor.getColumnIndex("cTime")));
+			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
+			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
+			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
 		}
 		db.close();
 		return asset;
@@ -126,7 +143,10 @@ public class AssetDAOImpl {
 			asset.setAddress(cursor.getString(cursor.getColumnIndex("address")));
 			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
 			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
-			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+			asset.setcTime(cursor.getString(cursor.getColumnIndex("cTime")));
+			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
+			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
+			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
 		}
 		db.close();
 		return asset;
@@ -152,6 +172,10 @@ public class AssetDAOImpl {
 			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
 			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+			asset.setcTime(cursor.getString(cursor.getColumnIndex("cTime")));
+			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
+			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
+			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
 		}
 		db.close();
 		return asset;
@@ -176,6 +200,10 @@ public class AssetDAOImpl {
 			asset.setCustodian(cursor.getString(cursor.getColumnIndex("custodian")));
 			asset.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			asset.setLabelId(cursor.getString(cursor.getColumnIndex("labelId")));
+			asset.setcTime(cursor.getString(cursor.getColumnIndex("cTime")));
+			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
+			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
+			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
 			lists.add(asset);
 		}
 		db.close();
@@ -203,5 +231,27 @@ public class AssetDAOImpl {
 			list.add(addr);
 		}
 		return list;
+	}
+	
+	/**
+	 * 获得所有的部门
+	 * @return list 部门列表
+	 */
+	public List<Department> getAllDept() {
+		List<Department> deptList = new ArrayList<Department>();
+		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select * from department", null);
+		while (cursor.moveToNext()) {
+			Department department = new Department();
+			department.setId(cursor.getString(cursor.getColumnIndex("id")));
+			department.setParentId(cursor.getString(cursor.getColumnIndex("parentId")));
+			department.setName(cursor.getString(cursor.getColumnIndex("name")));
+			department.setType(cursor.getInt(cursor.getColumnIndex("type")));
+			department.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+			department.setSequenceNum(cursor.getInt(cursor.getColumnIndex("sequenceNum")));
+			department.setMeno(cursor.getString(cursor.getColumnIndex("meno")));
+			deptList.add(department);
+		}
+		return deptList;
 	}
 }

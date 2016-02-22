@@ -46,7 +46,7 @@ public class DatabaseDump {
                  * SQLite数据库中的两个系统表  android_metadata、android_metadata
                  * 获得资产的记录表
                  */
-                if (tableName.equals("assetRecord")) {  
+                if (tableName.equals("asset")) {  
                     writeExcel(tableName);  
                 }  
                 // 循环下一个表名

@@ -1,10 +1,12 @@
 package com.uhf.rfid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.uhf.util.DBHelper;
 import com.uhf.util.DatabaseDump;
+import com.uhf.vo.Asset;
 import com.uhf.constants.Constants.Result;
 import com.uhf.dao.AssetDAOImpl;
 import com.uhf.linkage.Linkage;
@@ -126,6 +128,16 @@ public class MainActivity extends FragmentActivity{
 					textView.setText("请先停止盘点");
 					return;
 				}
+				// 在导出之前用当前时间的数值标记导出的数据，方便PC端的数据处理
+				Date date = new Date();
+				long time = date.getTime();
+				AssetDAOImpl assetDAOImpl = new AssetDAOImpl(getBaseContext());
+				List<Asset> assetList = assetDAOImpl.findAll();
+				for (Asset asset : assetList) {
+					asset.setPcFlag(time);
+					assetDAOImpl.update(asset);
+				}
+				// 获得操作的数据库中的表，并将其内容导出成Excel表格
 				DBHelper dbOpenHandler = new DBHelper(getBaseContext());
 				SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
 				DatabaseDump testDatabaseDump = new DatabaseDump(db, null);

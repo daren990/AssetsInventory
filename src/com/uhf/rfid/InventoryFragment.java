@@ -1,5 +1,6 @@
 package com.uhf.rfid;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.uhf.vo.Asset;
+import com.uhf.vo.Department;
 import com.uhf.constants.Constants.InvMode;
 import com.uhf.constants.Constants.Result;
 import com.uhf.dao.AssetDAOImpl;
+import com.uhf.dao.DepartmentDAOImpl;
 import com.uhf.rfid.R;
 import com.uhf.servlet.RecordServlet;
 import com.uhf.structures.Rfid_Value;
@@ -396,6 +399,7 @@ public class InventoryFragment extends Fragment {
 	 */
 	private synchronized void UpdatelistDataInsert(int found, String data) {
 		AssetDAOImpl assetDAOImpl = new AssetDAOImpl(getActivity().getBaseContext());
+		DepartmentDAOImpl departmentDAOImpl = new DepartmentDAOImpl(getActivity().getBaseContext());
 		m_TagTotalCount = m_TagTotalCount + 1;
 		if (found == 1) {
 			for (int i = 0; i < receptionArrayList.size(); i++) {
@@ -412,13 +416,24 @@ public class InventoryFragment extends Fragment {
 				}
 			}
 		} else {
-			String address = (String) txtAddress.getText();
+			String deptName = (String) txtAddress.getText();
 			String assetNo = null;
 			String assetName = null;
 			String assetCustodian = null;
 			String assetAddress = null;
-			// 获得对应标签和所在地点的资产
-			Asset asset = (Asset) assetDAOImpl.findByLabelId(data, address);
+			/**
+			 * 根据部门盘点资产信息
+			 * 若是选择浙江省医学科学院，则直接查处整个医学院所有的资产
+			 * 若是选择某个部门，则查出该部门的资产
+			 */
+			Asset asset = null;
+			if ("浙江省医学科学院".equals(deptName)) {
+				asset= (Asset) assetDAOImpl.findByLabelId(data);
+			} else {
+				Department department = departmentDAOImpl.findByName(deptName);
+				asset = assetDAOImpl.findByLabelIdAndDeptId(data, department.getId());
+			}
+			
 			/**
 			 * 如果标签ID没有找到对应的资产信息，则此时资产信息不添加到资产信息显示列表中
 			 */
@@ -438,10 +453,14 @@ public class InventoryFragment extends Fragment {
 				hashMap.put(AssetAddress, assetAddress);
 				receptionArrayList.add(hashMap);
 				/**
-				 * 插入已盘点到的资产到盘点记录表中
+				 * 修改资产表中的对应资产的盘点状态和操作时间
 				 */
-				RecordServlet recordServlet = new RecordServlet();
-				recordServlet.IsRecord(asset, getActivity().getBaseContext());
+				SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss "); 
+				Date curDate = new Date(System.currentTimeMillis());//获取当前时间 
+				String cTime = formatter.format(curDate);
+				asset.setpStatus(1);
+				asset.setcTime(cTime);
+				assetDAOImpl.update(asset);
 				refesh();
 			}
 		}
@@ -583,7 +602,10 @@ public class InventoryFragment extends Fragment {
 	public void initSpinner(Context context) {
 		//第一步：添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项  
 		AssetDAOImpl assetDAOImpl = new AssetDAOImpl(context);
-        list = assetDAOImpl.getAllAddress();
+		List<Department> deptList = assetDAOImpl.getAllDept();
+		for (Department department : deptList) {
+			list.add(department.getName());
+		}
         myTextView = (TextView) getView().findViewById(R.id.txtAddressValue);  
         mySpinner = (Spinner) getView().findViewById(R.id.AddressSpinner);
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。   

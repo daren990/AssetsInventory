@@ -21,7 +21,7 @@ public class AssetDAOImpl {
 
 	public void save(Asset asset) {// 插入记录
 		SQLiteDatabase db = dbOpenHandler.getReadableDatabase();// 取得数据库操作
-		db.execSQL("insert into asset (name, assetType, assetNo, address, custodian, status, labelId, cTime, pStatus, pcFlag, deptId) values(?,?,?,?,?,?,?,?,?,?,?)", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getPcFlag(),asset.getDeptId(), asset.getLabelId()});
+		db.execSQL("insert into asset (name, assetType, assetNo, address, custodian, status, labelId, cTime, pStatus, pcFlag, deptId, brand, price) values(?,?,?,?,?,?,?,?,?,?,?)", new Object[] {asset.getName(), asset.getAssetType(), asset.getAssetNo(), asset.getAddress(), asset.getCustodian(), asset.getStatus(), asset.getPcFlag(),asset.getDeptId(),asset.getBrand(),asset.getPrice(), asset.getLabelId()});
 		db.close();// 记得关闭数据库操作
 	}
 
@@ -60,6 +60,8 @@ public class AssetDAOImpl {
 			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
 			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
 			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
+			asset.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+			asset.setPrice(cursor.getFloat(cursor.getColumnIndex("price")));
 		}
 		db.close();
 		return asset;
@@ -89,6 +91,8 @@ public class AssetDAOImpl {
 			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
 			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
 			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
+			asset.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+			asset.setPrice(cursor.getFloat(cursor.getColumnIndex("price")));
 		}
 		db.close();
 		return asset;
@@ -119,6 +123,8 @@ public class AssetDAOImpl {
 			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
 			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
 			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
+			asset.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+			asset.setPrice(cursor.getFloat(cursor.getColumnIndex("price")));
 		}
 		db.close();
 		return asset;
@@ -147,6 +153,8 @@ public class AssetDAOImpl {
 			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
 			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
 			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
+			asset.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+			asset.setPrice(cursor.getFloat(cursor.getColumnIndex("price")));
 		}
 		db.close();
 		return asset;
@@ -176,6 +184,8 @@ public class AssetDAOImpl {
 			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
 			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
 			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
+			asset.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+			asset.setPrice(cursor.getFloat(cursor.getColumnIndex("price")));
 		}
 		db.close();
 		return asset;
@@ -204,6 +214,8 @@ public class AssetDAOImpl {
 			asset.setpStatus(cursor.getInt(cursor.getColumnIndex("pStatus")));
 			asset.setPcFlag(cursor.getInt(cursor.getColumnIndex("pcFlag")));
 			asset.setDeptId(cursor.getString(cursor.getColumnIndex("deptId")));
+			asset.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+			asset.setPrice(cursor.getFloat(cursor.getColumnIndex("price")));
 			lists.add(asset);
 		}
 		db.close();

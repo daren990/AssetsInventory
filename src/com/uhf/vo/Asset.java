@@ -18,6 +18,8 @@ public class Asset {
 	private int pStatus;// 盘点的状态，0：未盘点、1：已盘点
 	private long pcFlag;// 某次盘点的标记
 	private String deptId;// 部门id
+	private String brand;// 资产品牌
+	private float price;// 资产价格
 	
 	public int getId() {
 		return id;
@@ -90,5 +92,17 @@ public class Asset {
 	}
 	public void setDeptId(String deptId) {
 		this.deptId = deptId;
+	}
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
 	}
 }
